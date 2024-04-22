@@ -20,7 +20,7 @@ totalFrames=points*framesPerPoint
 animationRange=(interval 1f totalFrames)
 
 
-for q=1 to points do(
+for q=1 to points+1 do(
 
 
 	
@@ -33,15 +33,24 @@ dist=100
 	
 rad1=cos(pitch)*dist
 ct.pos=[sin(yaw)*rad1,cos(yaw)*rad1,sin(pitch)*dist]
+	ct.pos=[0,0,0]
 
-	yaw=random 0 360
-pitch=random -90 90
+
+dist=(pow (q/10.0) 5)*1.0-100.0
+if(dist<1)then dist=0.00001
+print ("Dist:" + (dist as string))
+
+yaw=(pow q 2)*.5
+pitch=(random -90.0 90.0)*(random 0.0 1.0)*.1
 roll=0
-dist=q*5
-	if(q<25) then dist=0
+
 rad1=cos(pitch)*dist
 c.pos=[sin(yaw)*rad1,cos(yaw)*rad1,sin(pitch)*dist]
 
+illum=255
+if(q>25) then illum=100.0-(q-25)/25.0*100.0
+
+meditMaterials[1].selfIllumAmount=illum
 	
 	)
 

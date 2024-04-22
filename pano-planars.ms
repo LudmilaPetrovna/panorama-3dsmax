@@ -17,6 +17,7 @@ infos=filterString csvline ";"
 
 pic_width=infos[1] as float
 pic_height=infos[2] as float
+pic_aspect=pic_width/pic_height
 uv_x1=infos[3] as float
 uv_y1=infos[4] as float
 uv_x2=infos[5] as float
@@ -27,12 +28,17 @@ roll=infos[9] as float
 fov=infos[10] as float
 origfilename=infos[11]
 
-	--if(pitch<-70 or pitch>1) then continue
-rad0=110	
-rad1=cos(pitch)	*rad0
+
+--if(pitch<-70 or pitch>1) then continue
 
 	
-pl=Plane width:128 length:72 lengthsegs:1 widthsegs:1 pos:[0,0,0]
+rad0=(random 0.0 500.0)*(random 0.0 1.0)+200.0
+rad1=cos(pitch)	*rad0
+
+pl_width=tan(fov/2)*rad0*2.0
+pl_height=pl_width/pic_aspect
+	
+pl=Plane width:pl_width length:pl_height lengthsegs:1 widthsegs:1 pos:[0,0,0]
 pl.name=origfilename
 m=Matrix3 1
 rotateY m (90)
