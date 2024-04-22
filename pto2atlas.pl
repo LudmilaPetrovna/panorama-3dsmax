@@ -86,7 +86,7 @@ die "Can't read image $filename!";
 }
 $ox=($pos%$tile_x)*$cardwidth;
 $oy=int($pos/$tile_x)*$cardheight;
-$atlas->copyResampled($image,$ox,$oy,0,0,$cardwidth,$cardheight,$card->{w},$card->{h});
+$atlas->copyResampled($image,$ox,$oy,0,0,$cardwidth,$cardheight,$image->getBounds());
 $pos++;
 
 }
