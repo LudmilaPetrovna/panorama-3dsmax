@@ -1,6 +1,6 @@
 delete $PanoCam*
 
-opticFov=30.0
+opticFov=20.0
 cols=ceil(360.0/opticFov*3.0) as Integer
 rows=ceil(180.0/opticFov*3.0) as Integer
 
@@ -8,9 +8,9 @@ totalFrames=(cols*rows) as Integer
 --totalFrames=5000
 
 
-rendOutputFilename = "v:/path-output/road/tt.jpg"
-renderWidth=48
-renderHeight=32
+rendOutputFilename = "v:/road/tt.jpg"
+renderWidth=148
+renderHeight=132
 
 --c=Targetcamera pos:[0,0,3] fov:45 nearclip:1 farclip:1000 nearrange:0 farrange:1000 mpassEnabled:off mpassRenderPerPass:off
 --c.fov=90
@@ -47,8 +47,8 @@ renderSceneDialog.update()
 
 -- render this file with "nona -o outname file.pto"
 
-outpto=createFile "v:/path-output/panotest1.pto" -- writeBOM:false)
-outmen=createFile "v:/path-output/panotest1-mender.txt" -- writeBOM:false)
+outpto=createFile "v:/teatest1.pto" -- writeBOM:false)
+outmen=createFile "v:/teatest1-mender.txt" -- writeBOM:false)
 
 format "p w2048 h1024 f2 v360 n\"PNG\" R0 T\"UINT8\"\n" to:outpto
 format "m i6\n" to:outpto
@@ -68,9 +68,9 @@ cf=90
 for q=1 to totalFrames do(
 	
 rx=-360.0*rows*q/totalFrames
-ry=-90+180.0*q/totalFrames
+ry=90-180.0*q/totalFrames
 
-rz=q*1.2345
+rz=q*10.2345
 --cf=abs(sin(180.0*q/totalFrames)*22)+1.0
 	
 	cf=opticFov
@@ -79,8 +79,8 @@ rz=q*1.2345
 	
 	pto=ptoPrefix
 	pto+=" r"+(rz as string)
-	pto+=" p"+((-ry) as string)
-	pto+=" y"+((-rx) as string)
+	pto+=" p"+((ry) as string)
+	pto+=" y"+((rx) as string)
 	pto+=" v"+(cf as string) -- current FOV
 	pto+=" n\""+filename+"\"\n"
 	
@@ -92,11 +92,11 @@ rz=q*1.2345
 	
 	at time q animate on (
 		mm=matrix3 1
-rotateY mm 90
+--rotateY mm 90
+rotateZ mm -rz
 rotateX mm 90
-rotateX mm -rz
-rotateY mm -ry
-rotateZ mm rx
+rotateX mm ry
+rotateZ mm -rx
 		freeCam.transform=mm
 		freeCam.fov=cf
 
